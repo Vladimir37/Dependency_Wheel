@@ -26,7 +26,7 @@ class Authenticate {
         return passport.deserializeUser(function(name, done) {
             if (name == "admin") {
                 done(null, {
-                    name: "admin"
+                    name
                 });
             }
             else {

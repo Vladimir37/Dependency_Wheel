@@ -1,5 +1,6 @@
 var express = require('express');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 var path = require('path');
@@ -25,6 +26,10 @@ auth.deserialization(passport);
 
 // parser
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // static
 app.use('/src', express.static(path.join(__dirname, '../client/source')));

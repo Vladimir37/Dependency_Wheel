@@ -3,3 +3,8 @@
   margin: 20px auto;
   padding: 15px;
 }
+.jumbotron .login_form {
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}

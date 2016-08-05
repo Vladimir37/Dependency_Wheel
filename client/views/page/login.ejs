@@ -1,5 +1,14 @@
 <% include ../basis/header %>
 
-<h1>Login</h1>
+<article class="login_form">
+    <h2>Login</h2>
+    <form action="login" method="POST">
+        <input type="text" class="form-control" name="username" required>
+        <br>
+        <input type="password" class="form-control" name="password" required>
+        <br>
+        <button class="btn btn-primary">Login</button>
+    </form>
+</article>
 
 <% include ../basis/footer %>
