@@ -70,7 +70,26 @@ class Files {
     }
 
     read(req, res, next) {
-        //
+        var id = req.params.id;
+        this._getDocName(id).then(function (name) {
+            fs.readFile('app/files/data/' + name + '.json', 'utf8', function (err, response) {
+                if (err) {
+                    console.log(err);
+                    res.render('errors/e500.ejs');
+                    return false;
+                }
+                // if (typeof response == 'string') {
+                //     response = JSON.parse(response);
+                // }
+                // response = JSON.stringify(response);
+                res.render('page/chart.ejs', {
+                    file: response
+                });
+            });
+        }).catch(function (err) {
+            console.log(err);
+            res.render('errors/e500.ejs');
+        });;
     }
 
     delete(req, res, next) {
@@ -85,6 +104,9 @@ class Files {
                 }
                 self._deleteFromList(id);
                 res.redirect('/');
+            }).catch(function (err) {
+                console.log(err);
+                res.render('errors/e500.ejs');
             });
         })
         

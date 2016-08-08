@@ -10,6 +10,15 @@ class Pages {
             });
         });
     }
+
+    chart(req, res, next) {
+        files.read().then(function (file) {
+            file = JSON.stringify(file);
+            res.render('page/chart.ejs', {
+                file: file
+            });
+        });
+    }
 }
 
 module.exports = Pages;
