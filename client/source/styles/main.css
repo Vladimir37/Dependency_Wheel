@@ -8,3 +8,10 @@
   margin: 0 auto;
   text-align: center;
 }
+.jumbotron .main-list tr td {
+  text-align: right;
+}
+.jumbotron .main-list tr td:first-child {
+  font-size: 18px;
+  text-align: left;
+}
