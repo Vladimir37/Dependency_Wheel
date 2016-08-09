@@ -3,16 +3,14 @@
 <section class="index">
     <h2>Dependency wheel</h2>
     <table class="table main-list">
-        <% docs.forEach(function(doc, i){ %>
+        <% for (var doc in docs){ %>
             <%- include('../elems/doc', {
-                    doc: doc, 
-                    num: i
+                    title: doc,
+                    date: docs[doc] 
                 }); %>
-        <% }); %>
+        <% }; %>
     </table>
     <form action="/upload" method="POST" enctype="multipart/form-data">
-        <input type="text" class="form-control" placeholder="Имя (латинскими буквами, без пробелов)" name="title" required>
-        <br>
         <input type="file" name="file" required>
         <br>
         <button class="btn btn-primary">Upload</button>

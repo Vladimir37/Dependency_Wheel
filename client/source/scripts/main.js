@@ -1,20 +1,22 @@
+var chart = d3.chart.dependencyWheel();
+console.log(chart);
+
 if (window.location.pathname.indexOf('read') > -1) {
     var data = document.getElementById('chart-data').getAttribute('data-doc');
     data = JSON.parse(data);
     var chart_num = 0;
+    var titles;
     for(var list in data) {
-        console.log(chart_num);
-        if (!chart_num) {
-            chart_num++;
-            continue;
+        if (chart_num) {
+            $('<h2>' + titles[list] + '</h2><div id="chart-' + chart_num + '"></div>').appendTo('.charts');
+            render(data[list], 'chart-' + chart_num);
+        }
+        else {
+            titles = data[list];
         }
         chart_num++;
-        $('<h2>' + list + '</h2><div id="chart-' + chart_num + '"></div>').appendTo('.charts');
-        render(data[list], 'chart-' + chart_num);
     };
 }
-
-var chart = d3.chart.dependencyWheel();
 
 function render(data, addr) {
     var services = [];
@@ -23,9 +25,11 @@ function render(data, addr) {
     for(var num in data) {
         var service = data[num];
         services_full.push(service);
-        services.push(service.name);
+        service.undefined.replace('\r\n', ' ');
+        services.push(service.undefined);
         for(var tool in service) {
             if(tool != 'undefined') {
+                tool.replace('\r\n', ' ');
                 tools.push(tool);
             }
         }
@@ -55,6 +59,8 @@ function render(data, addr) {
       packageNames: packages,
       matrix: dependencyMatrix
     };
+
+    console.log(chart);
 
     d3.select('#' + addr)
       .datum(data)

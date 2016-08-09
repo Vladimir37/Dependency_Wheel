@@ -20,6 +20,9 @@ class Files {
                 res.redirect('/#unfile');
                 return false;
             }
+            name_arr[name_arr.length - 1] = null;
+            var full_name = name_arr.join('.');
+            var full_name = name_arr.pop();
             var xlsx_file = xlsx.readFile(file.path);
             var list_names = xlsx_file.SheetNames;
             var result_file = [];
@@ -56,7 +59,7 @@ class Files {
             });
             result_file.unshift(list_names);
             result_file = JSON.stringify(result_file, null, 4);
-            fs.writeFile('app/files/data/' + fields.title + '.json', result_file, function (err) {
+            fs.writeFile('app/files/data/' + full_name + '.json', result_file, function (err) {
                 if (err) {
                     console.log(err);
                     res.render('errors/e500.ejs');
@@ -64,7 +67,7 @@ class Files {
                 }
                 res.redirect('/');
                 fs.unlink(file.path);
-                self._addToList(fields.title);
+                self._addToList(full_name);
             });
         });
     }
@@ -78,10 +81,6 @@ class Files {
                     res.render('errors/e500.ejs');
                     return false;
                 }
-                // if (typeof response == 'string') {
-                //     response = JSON.parse(response);
-                // }
-                // response = JSON.stringify(response);
                 res.render('page/chart.ejs', {
                     file: response
                 });
@@ -95,20 +94,15 @@ class Files {
     delete(req, res, next) {
         var self = this;
         var id = req.params.id;
-        this._getDocName(id).then(function (name) {
-            fs.unlink('app/files/data/' + name + '.json', function (err) {
-                if (err) {
-                    console.log(err);
-                    res.render('errors/e500.ejs');
-                    return false;
-                }
-                self._deleteFromList(id);
-                res.redirect('/');
-            }).catch(function (err) {
+        fs.unlink('app/files/data/' + id + '.json', function (err) {
+            if (err) {
                 console.log(err);
                 res.render('errors/e500.ejs');
-            });
-        })
+                return false;
+            }
+            self._deleteFromList(id);
+            res.redirect('/');
+        });
         
     }
 
@@ -136,7 +130,8 @@ class Files {
             if (typeof response == 'string') {
                 response = JSON.parse(response);
             }
-            response.push(title);
+            // response.push(title);
+            response[title] = new Date();
             response = JSON.stringify(response);
             fs.writeFile('app/files/list.json', response, function(err) {
                 if (err) {
@@ -155,11 +150,12 @@ class Files {
             if (typeof response == 'string') {
                 response = JSON.parse(response);
             }
-            response.forEach(function (elem, i) {
-                if (i == id) {
-                    response.splice(i, 1);
-                }
-            })
+            delete response[id]
+            // response.forEach(function (elem, i) {
+            //     if (i == id) {
+            //         response.splice(i, 1);
+            //     }
+            // })
             response = JSON.stringify(response);
             fs.writeFile('app/files/list.json', response, function(err) {
                 if (err) {
