@@ -9,7 +9,8 @@ var router = express.Router();
 
 router.get('/', auth.onlyUser, pages.index);
 router.get('/login', auth.onlyAnon, render.page('page/login'));
-router.get('/read/:id', auth.onlyUser, files.read.bind(files));
+router.get('/list/:id', auth.onlyUser, pages.list);
+router.get('/full/:id', auth.onlyUser, pages.full);
 router.get('/delete/:id', auth.onlyUser, files.delete.bind(files));
 
 router.post('/login', auth.onlyAnon, login.login);

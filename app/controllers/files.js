@@ -21,8 +21,8 @@ class Files {
                 return false;
             }
             name_arr[name_arr.length - 1] = null;
+            name_arr.pop();
             var full_name = name_arr.join('.');
-            var full_name = name_arr.pop();
             var xlsx_file = xlsx.readFile(file.path);
             var list_names = xlsx_file.SheetNames;
             var result_file = [];
@@ -72,23 +72,18 @@ class Files {
         });
     }
 
-    read(req, res, next) {
+    read(req) {
         var id = req.params.id;
-        this._getDocName(id).then(function (name) {
-            fs.readFile('app/files/data/' + name + '.json', 'utf8', function (err, response) {
+        return new Promise(function (resolve, reject) {
+            fs.readFile('app/files/data/' + id + '.json', 'utf8', function (err, response) {
                 if (err) {
                     console.log(err);
                     res.render('errors/e500.ejs');
-                    return false;
+                    reject();
                 }
-                res.render('page/chart.ejs', {
-                    file: response
-                });
+                resolve(response);
             });
-        }).catch(function (err) {
-            console.log(err);
-            res.render('errors/e500.ejs');
-        });;
+        });
     }
 
     delete(req, res, next) {

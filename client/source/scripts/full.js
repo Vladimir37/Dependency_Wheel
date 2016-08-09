@@ -1,40 +1,33 @@
 var chart = d3.chart.dependencyWheel();
-console.log(chart);
 
-if (window.location.pathname.indexOf('read') > -1) {
+if (window.location.pathname.indexOf('full') > -1) {
     var data = document.getElementById('chart-data').getAttribute('data-doc');
+    data = JSON.parse(data);
     data = JSON.parse(data);
     var chart_num = 0;
     var titles;
-    for(var list in data) {
-        if (chart_num) {
-            $('<h2>' + titles[list] + '</h2><div id="chart-' + chart_num + '"></div>').appendTo('.charts');
-            render(data[list], 'chart-' + chart_num);
-        }
-        else {
-            titles = data[list];
-        }
-        chart_num++;
-    };
+    render(data);
 }
 
-function render(data, addr) {
+function render(data) {
     var services = [];
     var services_full = [];
-    var tools = [];
-    for(var num in data) {
-        var service = data[num];
-        services_full.push(service);
-        service.undefined.replace('\r\n', ' ');
-        services.push(service.undefined);
-        for(var tool in service) {
-            if(tool != 'undefined') {
-                tool.replace('\r\n', ' ');
-                tools.push(tool);
-            }
+    var tools = data[0];
+    for(var i in data) {
+        services_full.push({name: 'Пробел'});
+        services.push('  ');
+        if (Number(i)) {
+            data[i].forEach(function(service) {
+                services_full.push(service);
+                services.push(service.undefined);
+            });
         }
-    }
-    tools = _.uniq(tools);
+        services_full.push({name: 'Название'});
+        services.push('TitleString_' + i);
+        services_full.push({name: 'Пробел'});
+        services.push('  ');
+    };
+    var canals_and_systems = data[0];
 
     var dependencyMatrix = [];
     var packages = tools.concat(services);
@@ -42,8 +35,10 @@ function render(data, addr) {
     for(var i in tools) {
         dependencyMatrix.push(generateEmptyArray(packages.length));
     }
-    services_full.forEach(function(service) {
+    
+    services_full.forEach(function(service, i) {
         var empty_part = generateEmptyArray(services_full.length);
+        console.log(tools);
         var tool_arr = tools.map(function(tool) {
             if(service[tool]) {
                 return 1;
@@ -60,9 +55,8 @@ function render(data, addr) {
       matrix: dependencyMatrix
     };
 
-    console.log(chart);
 
-    d3.select('#' + addr)
+    d3.select('#chart')
       .datum(data)
       .call(chart);
 }

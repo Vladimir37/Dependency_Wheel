@@ -11,11 +11,20 @@ class Pages {
         });
     }
 
-    chart(req, res, next) {
-        files.read().then(function (file) {
-            file = JSON.stringify(file);
-            res.render('page/chart.ejs', {
-                file: file
+    list(req, res, next) {
+        files.read(req).then(function (doc) {
+            doc = JSON.stringify(doc);
+            res.render('page/list.ejs', {
+                file: doc
+            });
+        });
+    }
+
+    full(req, res, next) {
+        files.read(req).then(function (doc) {
+            doc = JSON.stringify(doc);
+            res.render('page/full.ejs', {
+                file: doc
             });
         });
     }

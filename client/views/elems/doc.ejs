@@ -1,5 +1,7 @@
 <tr>
     <td><%= title %></td>
-    <td><a href=<%= "/read/" + title %>><button class="btn btn-primary btn-sm">Смотреть</button></%></a></td>
+    <td><%= new Date(date).toGMTString() %></td>
+    <td><a href=<%= "/list/" + title %>><button class="btn btn-primary btn-sm">Смотреть списком</button></%></a></td>
+    <td><a href=<%= "/full/" + title %>><button class="btn btn-primary btn-sm">Смотреть целиком</button></%></a></td>
     <td><a href=<%= "/delete/" + title %>><button class="btn btn-danger btn-sm">Удалить</button></%></a></td>
 </tr>
