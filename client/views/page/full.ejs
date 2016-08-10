@@ -1,5 +1,10 @@
 <% include ../basis/header %>
 
+<ul class="nav nav-pills">
+    <li><a href="/">Главная</a></li>
+    <li><a href=<%= "/list/" + id %>>Список</a></li>
+    <li class="active"><a href=<%= "/full/" + id %>>Полностью</a></li>
+</ul>
 <article id="chart-data" data-doc='<%= file %>'></article>
 <article id="chart"></article>
 <script src="/src/scripts/full.js"></script>

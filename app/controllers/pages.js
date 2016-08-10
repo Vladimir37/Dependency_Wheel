@@ -12,19 +12,23 @@ class Pages {
     }
 
     list(req, res, next) {
+        var id = req.params.id;
         files.read(req).then(function (doc) {
             doc = JSON.stringify(doc);
             res.render('page/list.ejs', {
-                file: doc
+                file: doc,
+                id: id
             });
         });
     }
 
     full(req, res, next) {
+        var id = req.params.id;
         files.read(req).then(function (doc) {
             doc = JSON.stringify(doc);
             res.render('page/full.ejs', {
-                file: doc
+                file: doc,
+                id: id
             });
         });
     }

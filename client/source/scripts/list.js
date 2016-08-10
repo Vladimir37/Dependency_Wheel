@@ -8,7 +8,7 @@ if (window.location.pathname.indexOf('list') > -1) {
     var titles;
     for(var list in data) {
         if (chart_num) {
-            $('<h2>' + titles[list] + '</h2><div id="chart-' + chart_num + '"></div>').appendTo('.charts');
+            $('<h2>' + titles[list - 1] + '</h2><div id="chart-' + chart_num + '"></div>').appendTo('.charts');
             render(data[list], 'chart-' + chart_num);
         }
         else {

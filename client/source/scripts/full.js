@@ -12,22 +12,33 @@ if (window.location.pathname.indexOf('full') > -1) {
 function render(data) {
     var services = [];
     var services_full = [];
-    var tools = data[0];
+    var tools = [];
     for(var i in data) {
-        services_full.push({name: 'Пробел'});
+        services_full.push({undefined: 'Пробел'});
         services.push('  ');
         if (Number(i)) {
+            services_full.push({undefined: data[0][i - 1]});
+            services.push(data[0][i - 1] + '{title}');
             data[i].forEach(function(service) {
                 services_full.push(service);
                 services.push(service.undefined);
             });
         }
-        services_full.push({name: 'Название'});
-        services.push('TitleString_' + i);
-        services_full.push({name: 'Пробел'});
+        services_full.push({undefined: 'Название'});
+        services.push('  ');
+        services_full.push({undefined: 'Пробел'});
         services.push('  ');
     };
-    var canals_and_systems = data[0];
+    var canals_and_systems = data[1];
+
+    for(var num in canals_and_systems) {
+        for(var tool in canals_and_systems[num]) {
+            if(tool != 'undefined') {
+                tools.push(tool);
+            }
+        }
+    }
+    tools = _.uniq(tools);
 
     var dependencyMatrix = [];
     var packages = tools.concat(services);
@@ -38,9 +49,8 @@ function render(data) {
     
     services_full.forEach(function(service, i) {
         var empty_part = generateEmptyArray(services_full.length);
-        console.log(tools);
         var tool_arr = tools.map(function(tool) {
-            if(service[tool]) {
+            if (service[tool]) {
                 return 1;
             }
             else {
@@ -55,12 +65,26 @@ function render(data) {
       matrix: dependencyMatrix
     };
 
-
     d3.select('#chart')
       .datum(data)
       .call(chart);
+
+    links();
 }
 
 function generateEmptyArray(num) {
     return _.times(num, _.constant(0));
+}
+
+function links() {
+    $('text').css({
+        fontFamily: 'Arial'
+    });
+    $('text:contains("{title}")').each(function() {
+        $(this).css({
+            fontSize: '20px',
+            fontWeight: 'bold'
+        });
+        this.innerHTML = this.innerHTML.slice(0, -7);
+    });
 }
