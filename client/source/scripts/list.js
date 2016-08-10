@@ -19,15 +19,9 @@ if (window.location.pathname.indexOf('list') > -1) {
 }
 
 if (window.location.hash) {
-    // var container = $('.jumbotron');
     var scrollTo = $('h2:contains("' + window.location.hash.slice(1) + '")');
 
-    $('h2:contains("' + window.location.hash.slice(1) + '")')[0].scrollIntoView(true);
-    // container.scrollTop(
-    //     scrollTo.offset().top - container.offset().top + container.scrollTop()
-    // );
-    
-    // $('h2:contains("' + window.location.hash.slice(1) + '")').scrollTo.offset().top;
+    $('h2:contains("' + decodeURI(window.location.hash.slice(1)) + '")')[0].scrollIntoView(true);
 }
 
 function render(data, addr) {

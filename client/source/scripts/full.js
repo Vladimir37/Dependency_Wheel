@@ -1,4 +1,4 @@
-var chart = d3.chart.dependencyWheel();
+var chart = d3.chart.dependencyWheel().width(1200).margin(300);
 
 if (window.location.pathname.indexOf('full') > -1) {
     var data = document.getElementById('chart-data').getAttribute('data-doc');
@@ -14,8 +14,6 @@ function render(data) {
     var services_full = [];
     var tools = [];
     for(var i in data) {
-        services_full.push({undefined: 'Пробел'});
-        services.push('  ');
         if (Number(i)) {
             services_full.push({undefined: data[0][i - 1]});
             services.push(data[0][i - 1] + '{title}');
@@ -24,12 +22,11 @@ function render(data) {
                 services.push(service.undefined);
             });
         }
-        services_full.push({undefined: 'Название'});
-        services.push('  ');
-        services_full.push({undefined: 'Пробел'});
-        services.push('  ');
     };
     var canals_and_systems = data[1];
+
+    services_full.push({undefined: 'Пробел'});
+    services.push('  ');
 
     for(var num in canals_and_systems) {
         for(var tool in canals_and_systems[num]) {
@@ -39,6 +36,8 @@ function render(data) {
         }
     }
     tools = _.uniq(tools);
+
+    tools.push('  ');
 
     var dependencyMatrix = [];
     var packages = tools.concat(services);
@@ -78,7 +77,8 @@ function generateEmptyArray(num) {
 
 function bold() {
     $('text').css({
-        fontFamily: 'Arial'
+        fontFamily: 'Arial',
+        // fontSize: '12px'
     });
     $('text:contains("{title}")').each(function() {
         $(this).css({
