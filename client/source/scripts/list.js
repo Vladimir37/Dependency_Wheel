@@ -18,6 +18,18 @@ if (window.location.pathname.indexOf('list') > -1) {
     };
 }
 
+if (window.location.hash) {
+    // var container = $('.jumbotron');
+    var scrollTo = $('h2:contains("' + window.location.hash.slice(1) + '")');
+
+    $('h2:contains("' + window.location.hash.slice(1) + '")')[0].scrollIntoView(true);
+    // container.scrollTop(
+    //     scrollTo.offset().top - container.offset().top + container.scrollTop()
+    // );
+    
+    // $('h2:contains("' + window.location.hash.slice(1) + '")').scrollTo.offset().top;
+}
+
 function render(data, addr) {
     var services = [];
     var services_full = [];

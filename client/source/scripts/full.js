@@ -69,14 +69,14 @@ function render(data) {
       .datum(data)
       .call(chart);
 
-    links();
+    bold();
 }
 
 function generateEmptyArray(num) {
     return _.times(num, _.constant(0));
 }
 
-function links() {
+function bold() {
     $('text').css({
         fontFamily: 'Arial'
     });
@@ -85,6 +85,12 @@ function links() {
             fontSize: '20px',
             fontWeight: 'bold'
         });
-        this.innerHTML = this.innerHTML.slice(0, -7);
+        var title = this.innerHTML.slice(0, -7);
+        this.innerHTML = title;
+        $(this).click(function() {
+            var addr = window.location.pathname.split('/');
+            addr = addr[addr.length - 1];
+            window.location.pathname = '/list/' + addr + '#' + title;
+        });
     });
 }
