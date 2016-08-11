@@ -1,4 +1,4 @@
-var chart = d3.chart.dependencyWheel().width(1200).margin(300);
+var chart = d3.chart.dependencyWheel().width(1300).margin(400);
 
 if (window.location.pathname.indexOf('full') > -1) {
     var data = document.getElementById('chart-data').getAttribute('data-doc');
@@ -19,8 +19,9 @@ function render(data) {
             services.push(data[0][i - 1] + '{title}');
             data[i].forEach(function(service) {
                 services_full.push(service);
-                services.push(service.undefined);
+                services.push(service.undefined + '{name}' + data[0][i - 1]);
             });
+            services.push('  ');
         }
     };
     var canals_and_systems = data[1];
@@ -77,8 +78,7 @@ function generateEmptyArray(num) {
 
 function bold() {
     $('text').css({
-        fontFamily: 'Arial',
-        // fontSize: '12px'
+        fontFamily: 'Arial'
     });
     $('text:contains("{title}")').each(function() {
         $(this).css({
@@ -91,6 +91,16 @@ function bold() {
             var addr = window.location.pathname.split('/');
             addr = addr[addr.length - 1];
             window.location.pathname = '/list/' + addr + '#' + title;
+        });
+    });
+
+    $('text:contains("{name}")').each(function() {
+        var name_arr = this.innerHTML.split('{name}');
+        this.innerHTML = name_arr[0];
+        $(this).click(function() {
+            var addr = window.location.pathname.split('/');
+            addr = addr[addr.length - 1];
+            window.location.pathname = '/list/' + addr + '#' + name_arr[1];
         });
     });
 }

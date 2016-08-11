@@ -72,7 +72,7 @@ class Files {
         });
     }
 
-    read(req) {
+    read(req, res) {
         var id = req.params.id;
         return new Promise(function (resolve, reject) {
             fs.readFile('app/files/data/' + id + '.json', 'utf8', function (err, response) {

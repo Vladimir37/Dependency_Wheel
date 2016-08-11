@@ -1,4 +1,4 @@
-var chart = d3.chart.dependencyWheel();
+var chart = d3.chart.dependencyWheel().width(1300).margin(400);;
 
 if (window.location.pathname.indexOf('list') > -1) {
     var data = document.getElementById('chart-data').getAttribute('data-doc');

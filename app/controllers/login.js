@@ -11,7 +11,7 @@ class Login {
                     return res.redirect('/login#incorrect');
                 }
                 else {
-                    return res.redirect('/');
+                    return res.redirect('/admin');
                 }
             });
         })(req, res, next);
